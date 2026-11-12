@@ -96,6 +96,43 @@ def dispatch(vault, request):
         return vault.queries.lookup(**options)
     if action == "storage_usage":
         return vault.queries.storage_usage()
+    if action == "design_define":
+        return vault.designs.define(options["design"])
+    if action == "design_get":
+        return vault.designs.get(options["design"], options["version"])
+    if action == "designs":
+        return vault.designs.list(options.get("design"))
+    if action == "design_variance":
+        return vault.designs.variance(options["design"], options["version"])
+    if action == "design_plan":
+        return vault.designs.plan(
+            options["run"],
+            options["design"],
+            options["version"],
+            options["seed"],
+            options.get("replicates", 200),
+            options.get("budget"),
+            options.get("effects"),
+            options.get("sensitivity"),
+        )
+    if action == "design_run":
+        return vault.designs.run(options["run"])
+    if action == "design_runs":
+        return vault.designs.runs(options.get("design"))
+    if action == "design_verify":
+        return vault.designs.verify(options["run"])
+    if action == "design_compare":
+        return vault.designs.compare(
+            options["comparison"],
+            options["candidates"],
+            options["seed"],
+            options.get("replicates", 200),
+            options.get("budget"),
+            options.get("effects"),
+            options.get("sensitivity"),
+        )
+    if action == "design_comparison":
+        return vault.designs.comparison(options["comparison"])
     reject("input", "unknown action", action=action)
 
 
